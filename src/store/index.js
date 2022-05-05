@@ -1,8 +1,14 @@
 import { createStore } from 'vuex'
 
 export default createStore({
-    state: {},
-    mutations : {},
+    state: {
+        invoiceModal: null
+    },
+    mutations : {
+        TOGGLE_MODAL(state){
+            state.invoiceModal = !state.invoiceModal;
+        }
+    },
     actions : {},
     modules : {}
 })

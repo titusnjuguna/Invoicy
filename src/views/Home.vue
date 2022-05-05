@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name:"Home_page",
   data(){
@@ -43,7 +44,9 @@ export default {
 
   },
   methods:{
+    ...mapMutations(["TOGGLE_MODAL"]),
     newInvoice(){
+      this.TOGGLE_MODAL();
 
     },
     toggleFilterMenu(){

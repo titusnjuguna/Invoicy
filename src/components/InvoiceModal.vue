@@ -127,6 +127,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
     name: "InvoiceModal",
     data(){
@@ -154,6 +155,17 @@ export default {
       invoiceTotal: 0,
     }
     },
+    methods:{
+      ...mapMutations(["TOGGLE_MODAL"]),
+      closeInvoice(){
+        this.TOGGLE_MODAL();
+      },
+
+    },
+    created(){
+      this.invoiceDateUnix = Date.now();
+      this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateStr
+    }
 
 }
 </script>
