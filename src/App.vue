@@ -1,10 +1,10 @@
 <template>
   <div>
-     <div v-if="!mobile" class="app flex flex-column">
+      <div v-if="!mobile" class="app flex flex-column">
        <Navigation />
        <div class="app-content flex flex-column">
          <transition name="invoice">
-           <InvoiceModal v-if="invoiceModal" />
+           <InvoiceModal v-if="invoiceModal"/>
          </transition>
          
          <router-view/>
@@ -14,7 +14,6 @@
        <h2> Sorry , this app is not supported on mobile devices </h2>
        <p>To use this app use a tablet or Laptop or desktop</p>
      </div>
-  
 
   </div>
  
