@@ -44,9 +44,9 @@ export default {
 
   },
   methods:{
-    ...mapMutations(["TOGGLE_MODAL"]),
+    ...mapMutations(["TOGGLE_INVOICE"]),
     newInvoice(){
-      this.TOGGLE_MODAL();
+      this.TOGGLE_INVOICE();
 
     },
     toggleFilterMenu(){

@@ -11,6 +11,7 @@
        </div>
      </div>
      <div v-else class="mobile-message flex flex-column">
+       <h1>Mobile App coming soon</h1>
        <h2> Sorry , this app is not supported on mobile devices </h2>
        <p>To use this app use a tablet or Laptop or desktop</p>
      </div>
