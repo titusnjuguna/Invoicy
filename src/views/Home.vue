@@ -39,7 +39,7 @@ export default {
   name:"Home_page",
   data(){
     return{
-      filterMenu: true,
+      filterMenu: null,
     }
 
   },
