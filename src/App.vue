@@ -3,6 +3,7 @@
       <div v-if="!mobile" class="app flex flex-column">
        <Navigation />
        <div class="app-content flex flex-column">
+         <Modal  />
          <transition name="invoice">
            <InvoiceModal v-if="invoiceModal"/>
          </transition>
@@ -23,12 +24,14 @@
 <script>
 import Navigation from "./components/Navigation.vue";
 import InvoiceModal from "./components/InvoiceModal.vue";
+import Modal from "./components/Modal";
 import { mapState } from "vuex";
 export default {
   name: 'App',
   components: {
     Navigation,
-    InvoiceModal
+    InvoiceModal,
+    Modal,
     
   },
   data(){

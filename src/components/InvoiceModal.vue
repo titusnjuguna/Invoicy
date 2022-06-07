@@ -203,7 +203,8 @@
 <script>
 import db from "../firebase/firebaseInit";
 import { mapMutations } from "vuex";
-import { v4 as uid } from "uuid";
+import {v4 as uid} from "uuid";
+
 import Loading from "../components/Loading.vue";
 
 export default {
@@ -278,9 +279,7 @@ export default {
     },
 
 
-    submitForm() {
-      this.uploadInvoice();
-      },
+  
     async uploadInvoice() {
       if (this.invoiceItemList.length <= 0) {
         alert("Please ensure you enter work item");
@@ -290,10 +289,9 @@ export default {
       this.calcInvoiceTotal();
       
 
-      const database = db.collection('invoices').doc();
-      await database.set(
-        {
-        invoiceId: uid(6),
+      const database = db.collection("invoices").doc();
+      await database.set({
+        invoiceId: uid(2),
         billerStreetAddress: this.billerStreetAddress,
         billerCity: this.billerCity,
         billerZipCode: this.billerZipCode,
@@ -316,10 +314,13 @@ export default {
         invoiceDraft: this.invoiceDraft,
         invoicePaid: null,
 
-        })
-      this.loading = false;
-      this.TOGGLE_INVOICE();
+        });
+        this.loading = false;
+        this.TOGGLE_INVOICE();
     },
+      submitForm() {
+      this.uploadInvoice();
+      },
   },
   watch: {
     paymentTerms() {
