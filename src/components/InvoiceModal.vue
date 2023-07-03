@@ -204,7 +204,6 @@
 import db from "../firebase/firebaseInit";
 import { mapMutations } from "vuex";
 import {v4 as uid} from "uuid";
-
 import Loading from "../components/Loading.vue";
 
 export default {
@@ -226,6 +225,7 @@ export default {
       clientCity: null,
       clientZipCode: null,
       clientCountry: null,
+      editInvoice: null,
       invoiceDateUnix: null,
       invoiceDate: null,
       paymentTerms: null,
@@ -240,13 +240,17 @@ export default {
   },
   created() {
     if(!this.editInvoice){
-       this.invoiceDateUnix = Date.now();
-       this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
-      "en-us",this.dateOptions);
+      this.invoiceDateUnix = Date.now();
+      this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString("en-us",this.dateOptions);
     }
   },
   methods: {
      ...mapMutations(["TOGGLE_MODAL", "TOGGLE_INVOICE","TOGGLE_EDIT_INVOICE"]),
+    checkClick(e){
+      if (e.target === this.$refs.invoiceWrap){
+        this.TOGGLE_MODAL();
+      }
+    },
     closeInvoice() {
       this.TOGGLE_MODAL();
     },
@@ -289,7 +293,7 @@ export default {
       this.calcInvoiceTotal();
       
 
-      const database = db.collection("invoices").doc();
+      const database = db.collection('invoices').doc();
       await database.set({
         invoiceId: uid(2),
         billerStreetAddress: this.billerStreetAddress,
