@@ -1,10 +1,13 @@
 import { createStore } from 'vuex'
+import db from '../firebase/firebaseInit'
 
 export default createStore({
     state: {
+        invoiceData:[],
         invoiceModal: null,
         editInvoice: null,
-        modalActive: null
+        modalActive: null,
+        invoicesLoaded:null
     },
     mutations : {
         TOGGLE_INVOICE(state) {
@@ -17,12 +20,18 @@ export default createStore({
         
         TOGGLE_EDIT_INVOICE(state){
             state.editInvoice = !state.editInvoice
+        },
+        SET_INVOICE_DATA(state,payload){
+            state.invoiceData.push(payload)
+        },
+        INVOICES_LOADED(state){
+            state.invoicesLoaded=true
         }
     },
     actions : {
         async GET_INVOICES({commit,state}){
             const getData = db.collection('invoices');
-            const results  = await getData(); 
+            const results  = await getData.get(); 
             results.forEach( doc => { if (!state.invoiceData.some(invoice => invoice.docId === doc.id)){
                 const data = {
                     docId : doc.id,
@@ -50,11 +59,14 @@ export default createStore({
                     invoicePaid: doc.data().invoicePaid,
             
 
-                }
+                };
+                commit('SET_INVOICE_DATA',data)
 
             }
+            
                 
             });
+            commit("invoicesLoaded")
 
         }
     },

@@ -27,7 +27,7 @@
 import Navigation from "./components/Navigation.vue";
 import InvoiceModal from "./components/InvoiceModal.vue";
 import Modal from "./components/Modal";
-import { mapState } from "vuex";
+import { mapState,mapActions} from "vuex";
 export default {
   name: 'App',
   components: {
@@ -43,10 +43,12 @@ export default {
  
   },
   created(){
+    this.GET_INVOICES();
     this.checkScreen();
     window.addEventListener("Resize",this.checkScreen);
   },
   methods:{
+    ...mapActions(['GET_INVOICES',]),
     checkScreen(){
       const windowWidth = window.innerWidth;
       if( windowWidth <= 750 ){
@@ -57,7 +59,7 @@ export default {
   }
   },
   computed:{
-    ...mapState(['invoiceModal','modalActive'])
+    ...mapState(['invoiceModal','modalActive','invoicesLoaded'])
   }
     
 }

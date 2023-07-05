@@ -4,7 +4,7 @@
     <div class="header flex">
       <div class="left flex flex-column">
         <h1>Invoices</h1>
-        <span>There are 4 total invoices</span>
+        <span>There are 3 total invoices</span>
       </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex" ref="filter">
@@ -29,12 +29,16 @@
         
       </div>
     </div>
+    <div class="">
+      <Invoice v-for="(invoice,index) in invoiceData" :key="index"/>
+    </div>
     
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations,mapState} from "vuex";
+import Invoice from "@/components/Invoice.vue";
 export default {
   name:"Home_page",
   data(){
@@ -42,6 +46,9 @@ export default {
       filterMenu: null,
     }
 
+  },
+  components:{
+    Invoice
   },
   methods:{
     ...mapMutations(["TOGGLE_INVOICE"]),
@@ -54,7 +61,9 @@ export default {
     }
 
   },
-
+  computed:{
+    ...mapState(['invoiceData'])
+  }
 };
 </script>
 
