@@ -6,7 +6,8 @@
   >
     <form @submit.prevent="submitForm" class="invoice-content">
       <Loading v-show="loading" />
-      <h1>New Invoice</h1>
+      <h1 v-if="!editInvoice">New Invoice</h1>
+      <h1 v-else>Edit Invoice</h1>
 
       <!--bill-from-->
       <div class="bill-from flex flex-column">
@@ -184,6 +185,7 @@
             Save Draft
           </button>
           <button
+          v-if="!editInvoice"
            
             type="submit"
             @click="publishInvoice"
@@ -202,7 +204,7 @@
 
 <script>
 import db from "../firebase/firebaseInit";
-import { mapMutations } from "vuex";
+import { mapMutations,mapState } from "vuex";
 import {v4 as uid} from "uuid";
 import Loading from "../components/Loading.vue";
 
@@ -225,7 +227,7 @@ export default {
       clientCity: null,
       clientZipCode: null,
       clientCountry: null,
-      editInvoice: null,
+      // editInvoice: null,
       invoiceDateUnix: null,
       invoiceDate: null,
       paymentTerms: null,
@@ -243,7 +245,29 @@ export default {
       this.invoiceDateUnix = Date.now();
       this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString("en-us",this.dateOptions);
     }
-  },
+  if (this.editInvoice){
+    const currentInvoice = this.currentInvoiceArray[0];
+    this.billerStreetAddress = currentInvoice.billerStreetAddress
+    this.billerCity = currentInvoice.billerCity
+    this.billerZipCode = currentInvoice.billerZipCode
+    this.billerCountry = currentInvoice.billerCountry
+    this.clientName = currentInvoice.clientName
+    this.clientEmail = currentInvoice.clientEmail
+    this.clientStreetAddress = currentInvoice.clientStreetAddress
+    this.clientCity = currentInvoice.clientCity
+    this.clientZipCode = currentInvoice.clientZipCode
+    this.clientCountry = currentInvoice.clientCountry
+    this.invoiceDateUnix = currentInvoice.invoiceDateUnix
+    this.invoiceDate = currentInvoice.invoiceDate
+    this.paymentTerms = currentInvoice.paymentTerms
+    this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix
+    this.paymentDueDate = currentInvoice.paymentDueDate
+    this.productDescription = currentInvoice.productDescription
+    this.invoicePending = currentInvoice.invoicePending
+    this.invoiceDraft = currentInvoice.invoiceDraft
+    this.invoiceItemList = currentInvoice.invoiceItemList
+
+  }},
   methods: {
      ...mapMutations(["TOGGLE_MODAL", "TOGGLE_INVOICE","TOGGLE_EDIT_INVOICE"]),
     checkClick(e){
@@ -325,6 +349,10 @@ export default {
       submitForm() {
       this.uploadInvoice();
       },
+  },
+  computed:{
+    ...mapState(["editInvoice","currentInvoiceArray"]),
+
   },
   watch: {
     paymentTerms() {

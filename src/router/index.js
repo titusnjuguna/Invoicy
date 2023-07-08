@@ -10,7 +10,7 @@ const routes = [
 
     },
     {
-        path: "/invoice/:invoiceid",
+        path: "/invoice/:invoiceId",
         name: "Invoice",
         component: InvoiceView,
 

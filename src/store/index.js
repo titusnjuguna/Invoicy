@@ -7,7 +7,9 @@ export default createStore({
         invoiceModal: null,
         editInvoice: null,
         modalActive: null,
-        invoicesLoaded:null
+        invoicesLoaded:null,
+        currentInvoiceArray:null,
+        
     },
     mutations : {
         TOGGLE_INVOICE(state) {
@@ -25,8 +27,12 @@ export default createStore({
             state.invoiceData.push(payload)
         },
         INVOICES_LOADED(state){
-            state.invoicesLoaded=true
-        }
+            state.invoicesLoaded = true
+        },
+        SET_CURRENT_INVOICE(state,payload){
+            state.currentInvoiceArray = state.invoiceData.filter((invoice)=>{return invoice.invoiceId===payload})
+        },
+        
     },
     actions : {
         async GET_INVOICES({commit,state}){
@@ -66,7 +72,7 @@ export default createStore({
             
                 
             });
-            commit("invoicesLoaded")
+            commit("INVOICES_LOADED")
 
         }
     },
