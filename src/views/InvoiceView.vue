@@ -92,7 +92,7 @@
           </div>
           <div class="total flex">
             <p>Amount Due</p>
-            <p>{{ currentInvoice.invoiceTotal }}</p>
+            <p>${{ currentInvoice.invoiceTotal }}</p>
           </div>
         </div>
       </div>

@@ -18,6 +18,10 @@ export default createStore({
         TOGGLE_MODAL(state) {
             state.modalActive = !state.modalActive;
         },
+        POP_MODAL(state){
+            
+
+        },
         
         
         TOGGLE_EDIT_INVOICE(state){
