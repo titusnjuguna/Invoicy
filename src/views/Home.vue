@@ -1,6 +1,6 @@
 <template>
   <div class="home container">
-    <!--header-->
+  
     <div class="header flex">
       <div class="left flex flex-column">
         <h1>Invoices</h1>
@@ -8,13 +8,13 @@
       </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex" ref="filter">
-          <span> Filter by Status</span>
+          <span> Filter by<span v-if="filteredInvoice">: {{ filteredInvoice }}</span></span>
           <img src="@/assets/icon-arrow-down.svg" alt="">
           <ul v-show="filterMenu" class="filter-menu">
-            <li>Draft</li>
-            <li>Pending</li>
-            <li>Paid</li>
-            <li>Clear Filter</li>
+            <li @click="filteredInvoices">Draft</li>
+            <li @click="filteredInvoices">Pending</li>
+            <li @click="filteredInvoices">Paid</li>
+            <li @click="filteredInvoices">Clear Filter</li>
 
           </ul>
         </div>
@@ -29,8 +29,12 @@
         
       </div>
     </div>
+    
+    <div>
+      <chart/>
+    </div>
     <div class="" v-if="invoiceData.length > 0">
-      <Invoice v-for="(invoice,index) in invoiceData" :invoice="invoice" :key="index"/>
+      <Invoice v-for="(invoice,index) in filteredData" :invoice="invoice" :key="index"/>
     </div>
     <div class="empty flex flex-column" v-else>
       <img src="@/assets/illustration-empty.svg">
@@ -49,11 +53,13 @@
 <script>
 import { mapMutations,mapState} from "vuex";
 import Invoice from "@/components/Invoice.vue";
+import chart from "@/components/chart.vue";
 export default {
   name:"Home_page",
   data(){
     return{
       filterMenu: null,
+      filteredInvoice: null
     }
 
   },
@@ -68,11 +74,34 @@ export default {
     },
     toggleFilterMenu(){
       this.filterMenu = !this.filterMenu;
+    },
+    filteredInvoices(e){
+      if(e.target.innerText === 'Clear Filter'){
+        this.filteredInvoice = null;
+        return;
+      }
+      this.filteredInvoice = e.target.innerText;
+
+
     }
 
   },
   computed:{
-    ...mapState(['invoiceData'])
+    ...mapState(['invoiceData']),
+    filteredData(){
+      return this.invoiceData.filter(invoice=>{
+        if(this.filteredInvoice === "Draft"){
+          return invoice.invoiceDraft === true;
+        }
+        if(this.filteredInvoice === "Pending"){
+          return invoice.invoicePending === true;
+        }
+        if(this.filteredInvoice === "Paid"){
+          return invoice.invoicePaid === true;
+        }
+        return invoice;
+      })
+    },
   }
 };
 </script>
@@ -80,6 +109,7 @@ export default {
 <style lang="scss" scoped>
 .home {
   color: #fff;
+  
 
   .header {
     margin-bottom: 65px;
